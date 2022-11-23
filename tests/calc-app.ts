@@ -23,4 +23,59 @@ describe("calc-app", () => {
     );
     assert.ok(account.greeting === greetingMsg);
   });
+  it("addition work", async () => {
+    const num1 = 3;
+    const num2 = 4;
+    await program.rpc.add(new anchor.BN(num1), new anchor.BN(num2), {
+      accounts: {
+        calculator: calculator.publicKey,
+      },
+    });
+    const account = await program.account.calculator.fetch(
+      calculator.publicKey
+    );
+    assert.ok(account.result.eq(new anchor.BN(num1 + num2)));
+  });
+
+  it("subtraction work", async () => {
+    const num1 = 5;
+    const num2 = 4;
+    await program.rpc.sub(new anchor.BN(num1), new anchor.BN(num2), {
+      accounts: {
+        calculator: calculator.publicKey,
+      },
+    });
+    const account = await program.account.calculator.fetch(
+      calculator.publicKey
+    );
+    assert.ok(account.result.eq(new anchor.BN(num1 - num2)));
+  });
+
+  it("multiplication work", async () => {
+    const num1 = 5;
+    const num2 = 4;
+    await program.rpc.mult(new anchor.BN(num1), new anchor.BN(num2), {
+      accounts: {
+        calculator: calculator.publicKey,
+      },
+    });
+    const account = await program.account.calculator.fetch(
+      calculator.publicKey
+    );
+    assert.ok(account.result.eq(new anchor.BN(num1 * num2)));
+  });
+
+  it("division work", async () => {
+    const num1 = 8;
+    const num2 = 4;
+    await program.rpc.div(new anchor.BN(num1), new anchor.BN(num2), {
+      accounts: {
+        calculator: calculator.publicKey,
+      },
+    });
+    const account = await program.account.calculator.fetch(
+      calculator.publicKey
+    );
+    assert.ok(account.result.eq(new anchor.BN(num1 / num2)));
+  });
 });
